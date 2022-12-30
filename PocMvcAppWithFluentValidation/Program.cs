@@ -1,15 +1,21 @@
 using System.Globalization;
 using FluentValidation;
+using PocMvcAppWithFluentValidation.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var mvcBuilder = builder.Services.AddControllersWithViews();
+var mvcBuilder = builder.Services.AddControllersWithViews(config =>
+{
+    config.Filters.Add<ValidationActionFilter>();
+});
 
 if (builder.Environment.IsDevelopment())
     mvcBuilder.AddRazorRuntimeCompilation();
 
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+//builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+//builder.Services.AddFluentValidationAutoValidation();
 ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("en-GB");
 
 var app = builder.Build();
