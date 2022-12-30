@@ -1,0 +1,21 @@
+@model AddTodoModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Add Todo";
+}
+
+<form asp-controller="Todo" asp-action="AddTodo">
+    <div class="mb-3">
+        <label asp-for="Title">Title</label>
+        <input type="text" asp-for="Title" class="form-control">
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
