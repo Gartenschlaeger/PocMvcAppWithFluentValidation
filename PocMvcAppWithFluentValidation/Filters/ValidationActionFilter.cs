@@ -15,7 +15,7 @@ public class ValidationActionFilter : ActionFilterAttribute
         _serviceProvider = serviceProvider;
     }
 
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var validator = context.ActionArguments.Values
             .Where(x => x != null)
@@ -37,18 +37,54 @@ public class ValidationActionFilter : ActionFilterAttribute
             .Where(x => x.Validator != null)
             .ToArray();
 
-
         foreach (var item in validator)
         {
             var validationContext = new ValidationContext<object>(item.Value);
 
-            var validationResult = item.Validator.Validate(validationContext);
+            var validationResult = await item.Validator.ValidateAsync(validationContext);
             if (!validationResult.IsValid)
             {
                 AddErrors(validationResult, context.ModelState);
             }
         }
+
+        await base.OnActionExecutionAsync(context, next);
     }
+
+    // public override void OnActionExecuting(ActionExecutingContext context)
+    // {
+    //     var validator = context.ActionArguments.Values
+    //         .Where(x => x != null)
+    //         .Select(x =>
+    //         {
+    //             var valueType = x.GetType();
+    //             var validatorType = typeof(IValidator<>);
+    //             validatorType = validatorType.MakeGenericType(valueType);
+    //
+    //             var validator = _serviceProvider.GetService(validatorType);
+    //             var validatorCorrectType = (IValidator) validator;
+    //
+    //             return new
+    //             {
+    //                 Value = x,
+    //                 Validator = validatorCorrectType
+    //             };
+    //         })
+    //         .Where(x => x.Validator != null)
+    //         .ToArray();
+    //
+    //
+    //     foreach (var item in validator)
+    //     {
+    //         var validationContext = new ValidationContext<object>(item.Value);
+    //
+    //         var validationResult = item.Validator.Validate(validationContext);
+    //         if (!validationResult.IsValid)
+    //         {
+    //             AddErrors(validationResult, context.ModelState);
+    //         }
+    //     }
+    // }
 
     private void AddErrors(
         FluentValidation.Results.ValidationResult validationResult,
