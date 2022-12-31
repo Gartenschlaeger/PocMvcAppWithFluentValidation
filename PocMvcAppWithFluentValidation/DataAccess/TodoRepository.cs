@@ -19,24 +19,30 @@ public class TodoRepository : ITodoRepository
         return Task.CompletedTask;
     }
 
-    public Task<TodoDao> GetById(long id)
+    public Task<TodoDao> GetByIdAsync(long id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<ImmutableList<TodoDao>> GetTodos()
+    public Task<ImmutableList<TodoDao>> GetTodosAsync()
     {
         return Task.FromResult(_todos.ToImmutableList());
     }
 
-    public Task Update(TodoDao todo)
+    public Task UpdateAsync(TodoDao todo)
     {
         throw new NotImplementedException();
     }
 
-    public Task Delete(long id)
+    public Task DeleteAsync(long id)
     {
-        throw new NotImplementedException();
+        var index = _todos.FindIndex(t => t.Id == id);
+        if (index != -1)
+        {
+            _todos.RemoveAt(index);
+        }
+
+        return Task.CompletedTask;
     }
 
 }

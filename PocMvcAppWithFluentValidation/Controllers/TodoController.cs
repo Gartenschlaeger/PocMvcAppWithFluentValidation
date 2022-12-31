@@ -25,7 +25,7 @@ public class TodoController : Controller
     public async Task<IActionResult> Index()
     {
         var model = new TodosModel();
-        model.Todos = await _todoRepository.GetTodos();
+        model.Todos = await _todoRepository.GetTodosAsync();
 
         return View(model);
     }
@@ -51,6 +51,13 @@ public class TodoController : Controller
         }
 
         return View(model);
+    }
+
+    [HttpGet("delete/{todoId}")]
+    public async Task<IActionResult> DeleteTodo(long todoId)
+    {
+        await _todoRepository.DeleteAsync(todoId);
+        return RedirectToAction("Index");
     }
 
 }

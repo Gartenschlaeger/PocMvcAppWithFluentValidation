@@ -15,7 +15,7 @@
             <div class="card-body">
                 <p class="card-text">@Html.Raw(todo.Description.ReplaceLineEndings("<br>"))</p>
                 <hr>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a asp-controller="Todo" asp-action="DeleteTodo" asp-route-todoId="@todo.Id" class="btn btn-danger">Delete</a>
             </div>
         </div>
     }
