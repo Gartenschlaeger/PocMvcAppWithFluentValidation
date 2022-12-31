@@ -86,7 +86,7 @@ public class ValidationActionFilter : ActionFilterAttribute
     //     }
     // }
 
-    private void AddErrors(
+    private static void AddErrors(
         FluentValidation.Results.ValidationResult validationResult,
         ModelStateDictionary modelState)
     {

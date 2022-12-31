@@ -1,5 +1,7 @@
 using System.Globalization;
 using FluentValidation;
+using MediatR;
+using PocMvcAppWithFluentValidation.DataAccess;
 using PocMvcAppWithFluentValidation.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 //builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 //builder.Services.AddFluentValidationAutoValidation();
 ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("en-GB");
+
+builder.Services.AddMediatR(typeof(Program));
+
+builder.Services.AddSingleton<ITodoRepository, TodoRepository>();
 
 var app = builder.Build();
 

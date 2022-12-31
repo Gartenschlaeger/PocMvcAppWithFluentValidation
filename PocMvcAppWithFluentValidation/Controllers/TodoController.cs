@@ -1,4 +1,7 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PocMvcAppWithFluentValidation.Commands;
+using PocMvcAppWithFluentValidation.DataAccess;
 using PocMvcAppWithFluentValidation.Models;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
@@ -7,6 +10,26 @@ namespace PocMvcAppWithFluentValidation.Controllers;
 public class TodoController : Controller
 {
 
+    private readonly IMediator _mediator;
+    private readonly ITodoRepository _todoRepository;
+
+    public TodoController(
+        IMediator mediator,
+        ITodoRepository todoRepository)
+    {
+        _mediator = mediator;
+        _todoRepository = todoRepository;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var model = new TodosModel();
+        model.Todos = await _todoRepository.GetTodos();
+
+        return View(model);
+    }
+
     [HttpGet("add")]
     public IActionResult AddTodo()
     {
@@ -14,17 +37,20 @@ public class TodoController : Controller
     }
 
     [HttpPost("add")]
-    public Task<IActionResult> AddTodo(AddTodoModel model)
+    public async Task<IActionResult> AddTodo(AddTodoModel model)
     {
-        // var validationResult = await _addTodoValidator.ValidateAsync(model);
-        // validationResult.AddToModelState(ModelState);
-
         if (ModelState.IsValid)
         {
-            ViewBag.Saved = true;
+            await _mediator.Send(new AddTodoCommand
+            {
+                Title = model.Title,
+                Description = model.Description
+            });
+
+            return RedirectToAction("Index");
         }
 
-        return Task.FromResult<IActionResult>(View(model));
+        return View(model);
     }
 
 }
