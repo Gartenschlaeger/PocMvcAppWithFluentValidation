@@ -1,15 +1,15 @@
-using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace PocMvcAppWithFluentValidation.Extensions;
 
-public static class ValidationExceptionExtensions
+public static class ValidationResultsExtensions
 {
 
-    public static void AddToModelState(this ValidationException validationException,
+    public static void AddToModelState(this ValidationResult validationResult,
         ModelStateDictionary modelState)
     {
-        foreach (var error in validationException.Errors)
+        foreach (var error in validationResult.Errors)
         {
             modelState.AddModelError(error.PropertyName, error.ErrorMessage);
         }

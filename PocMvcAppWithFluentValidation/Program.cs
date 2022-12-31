@@ -3,7 +3,6 @@ using FluentValidation;
 using MediatR;
 using PocMvcAppWithFluentValidation.DataAccess;
 using PocMvcAppWithFluentValidation.Filters;
-using PocMvcAppWithFluentValidation.PipelineBehaviours;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +21,6 @@ ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("en-GB");
 
 // MediatR
 builder.Services.AddMediatR(typeof(Program));
-// builder.Services.AddTransient(
-//     typeof(IPipelineBehavior<,>),
-//     typeof(ValidationBehavior<,>));
 
 // DataAccess
 builder.Services.AddSingleton<ITodoRepository, TodoRepository>();

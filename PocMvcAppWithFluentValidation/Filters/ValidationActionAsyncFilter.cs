@@ -1,7 +1,6 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PocMvcAppWithFluentValidation.Extensions;
 
 namespace PocMvcAppWithFluentValidation.Filters;
 
@@ -43,7 +42,7 @@ public class ValidationActionAsyncFilter : ActionFilterAttribute
             var validationContext = new ValidationContext<object>(item.Value);
 
             var validationResult = await item.Validator.ValidateAsync(validationContext);
-            if (!validationResult.IsValid)
+            if (validationResult != null && !validationResult.IsValid)
             {
                 validationResult.AddToModelState(context.ModelState);
             }
