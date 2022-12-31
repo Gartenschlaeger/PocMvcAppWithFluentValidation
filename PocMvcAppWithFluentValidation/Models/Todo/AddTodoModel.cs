@@ -1,4 +1,4 @@
-namespace PocMvcAppWithFluentValidation.Models;
+namespace PocMvcAppWithFluentValidation.Models.Todo;
 
 public class AddTodoModel
 {

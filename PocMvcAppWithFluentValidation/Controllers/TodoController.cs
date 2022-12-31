@@ -1,8 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PocMvcAppWithFluentValidation.Commands;
-using PocMvcAppWithFluentValidation.DataAccess;
-using PocMvcAppWithFluentValidation.Models;
+using PocMvcAppWithFluentValidation.Commands.Todo;
+using PocMvcAppWithFluentValidation.Models.Todo;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
 
@@ -11,21 +10,21 @@ public class TodoController : Controller
 {
 
     private readonly IMediator _mediator;
-    private readonly ITodoRepository _todoRepository;
 
     public TodoController(
-        IMediator mediator,
-        ITodoRepository todoRepository)
+        IMediator mediator)
     {
         _mediator = mediator;
-        _todoRepository = todoRepository;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
+        var request = new GetTodosCommand();
+        var response = await _mediator.Send(request);
+
         var model = new TodosModel();
-        model.Todos = await _todoRepository.GetTodosAsync();
+        model.Todos = response.Todos;
 
         return View(model);
     }
@@ -41,11 +40,13 @@ public class TodoController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _mediator.Send(new AddTodoCommand
+            var request = new AddTodoCommand
             {
                 Title = model.Title,
                 Description = model.Description
-            });
+            };
+
+            await _mediator.Send(request);
 
             return RedirectToAction("Index");
         }
@@ -56,7 +57,9 @@ public class TodoController : Controller
     [HttpGet("delete/{todoId}")]
     public async Task<IActionResult> DeleteTodo(long todoId)
     {
-        await _todoRepository.DeleteAsync(todoId);
+        var request = new DeleteTodoCommand { Id = todoId };
+        await _mediator.Send(request);
+
         return RedirectToAction("Index");
     }
 

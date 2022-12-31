@@ -1,4 +1,4 @@
-namespace PocMvcAppWithFluentValidation.Commands;
+namespace PocMvcAppWithFluentValidation.Commands.Todo;
 
 public class AddTodoCommandResponse
 {

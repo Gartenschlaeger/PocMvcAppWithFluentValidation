@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace PocMvcAppWithFluentValidation.Models;
+namespace PocMvcAppWithFluentValidation.Models.Todo;
 
 public class AddTodoModelValidator : AbstractValidator<AddTodoModel>
 {

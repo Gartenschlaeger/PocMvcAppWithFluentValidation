@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace PocMvcAppWithFluentValidation.Commands;
+namespace PocMvcAppWithFluentValidation.Commands.Todo;
 
 public class AddTodoCommand : IRequest<AddTodoCommandResponse>
 {
