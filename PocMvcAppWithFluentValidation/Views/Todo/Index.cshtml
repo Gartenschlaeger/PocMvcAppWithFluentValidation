@@ -6,10 +6,17 @@
     <a asp-controller="Todo" asp-action="AddTodo" class="btn btn-primary">Add</a>
 </div>
 <div>
-    <ul>
-        @foreach (var todo in Model.Todos)
-        {
-            <li>@todo.Title</li>
-        }
-    </ul>
+    @foreach (var todo in Model.Todos)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                @todo.Title
+            </div>
+            <div class="card-body">
+                <p class="card-text">@Html.Raw(todo.Description.ReplaceLineEndings("<br>"))</p>
+                <hr>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    }
 </div>
