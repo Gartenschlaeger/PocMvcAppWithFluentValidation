@@ -5,18 +5,18 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace PocMvcAppWithFluentValidation.Filters;
 
-public class ValidationActionFilter : ActionFilterAttribute
+public class ValidationActionAsyncFilter : ActionFilterAttribute
 {
 
     private readonly IServiceProvider _serviceProvider;
 
-    public ValidationActionFilter(
+    public ValidationActionAsyncFilter(
         IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    public override void OnActionExecuting(ActionExecutingContext context)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var validator = context.ActionArguments.Values
             .Where(x => x != null)
@@ -38,17 +38,18 @@ public class ValidationActionFilter : ActionFilterAttribute
             .Where(x => x.Validator != null)
             .ToArray();
 
-
         foreach (var item in validator)
         {
             var validationContext = new ValidationContext<object>(item.Value);
 
-            var validationResult = item.Validator.Validate(validationContext);
+            var validationResult = await item.Validator.ValidateAsync(validationContext);
             if (!validationResult.IsValid)
             {
                 validationResult.AddToModelState(context.ModelState);
             }
         }
+
+        await base.OnActionExecutionAsync(context, next);
     }
 
 }

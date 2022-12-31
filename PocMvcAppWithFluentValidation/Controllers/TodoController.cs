@@ -1,12 +1,15 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PocMvcAppWithFluentValidation.Commands.Todo;
+using PocMvcAppWithFluentValidation.Controllers.BaseTypes;
+using PocMvcAppWithFluentValidation.Extensions;
 using PocMvcAppWithFluentValidation.Models.Todo;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
 
 [Route("todo")]
-public class TodoController : Controller
+public class TodoController : WebController
 {
 
     private readonly IMediator _mediator;
@@ -38,7 +41,7 @@ public class TodoController : Controller
     [HttpPost("add")]
     public async Task<IActionResult> AddTodo(AddTodoModel model)
     {
-        if (ModelState.IsValid)
+        try
         {
             var request = new AddTodoCommand
             {
@@ -47,7 +50,14 @@ public class TodoController : Controller
             };
 
             await _mediator.Send(request);
+        }
+        catch (ValidationException validationException)
+        {
+            validationException.AddToModelState(ModelState);
+        }
 
+        if (ModelState.IsValid)
+        {
             return RedirectToAction("Index");
         }
 

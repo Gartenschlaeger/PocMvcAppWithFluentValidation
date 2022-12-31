@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using PocMvcAppWithFluentValidation.Controllers.BaseTypes;
 using PocMvcAppWithFluentValidation.Models;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
 
 [Route("")]
 [Route("home")]
-public class HomeController : Controller
+public class HomeController : WebController
 {
 
     private readonly ILogger<HomeController> _logger;
