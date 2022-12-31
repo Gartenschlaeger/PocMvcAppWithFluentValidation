@@ -4,6 +4,8 @@ using PocMvcAppWithFluentValidation.Models;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
 
+[Route("")]
+[Route("home")]
 public class HomeController : Controller
 {
 
@@ -15,16 +17,20 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [HttpGet("")]
+    [HttpGet("index")]
     public IActionResult Index()
     {
         return View();
     }
 
+    [HttpGet("privacy")]
     public IActionResult Privacy()
     {
         return View();
     }
 
+    [HttpGet("error")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
