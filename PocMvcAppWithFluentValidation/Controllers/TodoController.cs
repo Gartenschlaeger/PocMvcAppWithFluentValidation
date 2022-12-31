@@ -1,9 +1,7 @@
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PocMvcAppWithFluentValidation.Commands.Todo;
 using PocMvcAppWithFluentValidation.Controllers.BaseTypes;
-using PocMvcAppWithFluentValidation.Extensions;
 using PocMvcAppWithFluentValidation.Models.Todo;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
