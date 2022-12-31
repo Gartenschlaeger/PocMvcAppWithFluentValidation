@@ -8,7 +8,9 @@ public interface ITodoRepository
 
     Task AddAsync(TodoDao todo);
 
-    Task<TodoDao> GetByIdAsync(long id);
+    Task<TodoDao?> GetByIdAsync(long id);
+
+    Task<TodoDao?> GetByTitleAsync(string title);
 
     Task<ImmutableList<TodoDao>> GetTodosAsync();
 

@@ -19,9 +19,17 @@ public class TodoRepository : ITodoRepository
         return Task.CompletedTask;
     }
 
-    public Task<TodoDao> GetByIdAsync(long id)
+    public Task<TodoDao?> GetByIdAsync(long id)
     {
         throw new NotImplementedException();
+    }
+
+    public Task<TodoDao?> GetByTitleAsync(string title)
+    {
+        var todo = _todos.SingleOrDefault(todo
+            => todo.Title != null && todo.Title.Equals(title));
+
+        return Task.FromResult(todo);
     }
 
     public Task<ImmutableList<TodoDao>> GetTodosAsync()
