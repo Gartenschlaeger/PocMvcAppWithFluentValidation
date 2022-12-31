@@ -41,7 +41,7 @@ public class TodoController : WebController
     [HttpPost("add")]
     public async Task<IActionResult> AddTodo(AddTodoModel model)
     {
-        try
+        if (ModelState.IsValid)
         {
             var request = new AddTodoCommand
             {
@@ -50,14 +50,7 @@ public class TodoController : WebController
             };
 
             await _mediator.Send(request);
-        }
-        catch (ValidationException validationException)
-        {
-            validationException.AddToModelState(ModelState);
-        }
 
-        if (ModelState.IsValid)
-        {
             return RedirectToAction("Index");
         }
 

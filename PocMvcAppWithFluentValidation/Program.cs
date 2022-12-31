@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 var mvcBuilder = builder.Services.AddControllersWithViews(config =>
 {
     // only needed if fluent validation pipeline behavior is not used
-    // config.Filters.Add<ValidationActionAsyncFilter>();
+    config.Filters.Add<ValidationActionAsyncFilter>();
 });
 
 if (builder.Environment.IsDevelopment())
@@ -22,9 +22,9 @@ ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("en-GB");
 
 // MediatR
 builder.Services.AddMediatR(typeof(Program));
-builder.Services.AddTransient(
-    typeof(IPipelineBehavior<,>),
-    typeof(ValidationBehavior<,>));
+// builder.Services.AddTransient(
+//     typeof(IPipelineBehavior<,>),
+//     typeof(ValidationBehavior<,>));
 
 // DataAccess
 builder.Services.AddSingleton<ITodoRepository, TodoRepository>();
