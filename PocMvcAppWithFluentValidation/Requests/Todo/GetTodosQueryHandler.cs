@@ -1,24 +1,24 @@
 using MediatR;
 using PocMvcAppWithFluentValidation.DataAccess;
 
-namespace PocMvcAppWithFluentValidation.Commands.Todo;
+namespace PocMvcAppWithFluentValidation.Requests.Todo;
 
-public class GetTodosCommandHandler : IRequestHandler<GetTodosCommand, GetTodosCommandResponse>
+public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, GetTodosQueryResponse>
 {
 
     private readonly ITodoRepository _todoRepository;
 
-    public GetTodosCommandHandler(
+    public GetTodosQueryHandler(
         ITodoRepository todoRepository)
     {
         _todoRepository = todoRepository;
     }
 
-    public async Task<GetTodosCommandResponse> Handle(
-        GetTodosCommand request,
+    public async Task<GetTodosQueryResponse> Handle(
+        GetTodosQuery request,
         CancellationToken cancellationToken)
     {
-        return new GetTodosCommandResponse
+        return new GetTodosQueryResponse
         {
             Todos = await _todoRepository.GetTodosAsync()
         };

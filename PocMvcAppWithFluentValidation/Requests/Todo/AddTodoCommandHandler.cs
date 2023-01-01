@@ -2,7 +2,7 @@ using MediatR;
 using PocMvcAppWithFluentValidation.DataAccess;
 using PocMvcAppWithFluentValidation.DataAccess.Entities;
 
-namespace PocMvcAppWithFluentValidation.Commands.Todo;
+namespace PocMvcAppWithFluentValidation.Requests.Todo;
 
 public class AddTodoCommandHandler : IRequestHandler<AddTodoCommand, AddTodoCommandResponse>
 {

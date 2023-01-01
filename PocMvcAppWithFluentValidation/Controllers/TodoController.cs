@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PocMvcAppWithFluentValidation.Commands.Todo;
 using PocMvcAppWithFluentValidation.Controllers.BaseTypes;
 using PocMvcAppWithFluentValidation.Models.Todo;
+using PocMvcAppWithFluentValidation.Requests.Todo;
 
 namespace PocMvcAppWithFluentValidation.Controllers;
 
@@ -21,7 +21,7 @@ public class TodoController : WebController
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var request = new GetTodosCommand();
+        var request = new GetTodosQuery();
         var response = await _mediator.Send(request);
 
         var model = new TodosModel();
@@ -58,7 +58,11 @@ public class TodoController : WebController
     [HttpGet("delete/{todoId}")]
     public async Task<IActionResult> DeleteTodo(long todoId)
     {
-        var request = new DeleteTodoCommand { Id = todoId };
+        var request = new DeleteTodoCommand
+        {
+            Id = todoId
+        };
+
         await _mediator.Send(request);
 
         return RedirectToAction("Index");

@@ -1,9 +1,9 @@
 using System.Collections.Immutable;
 using PocMvcAppWithFluentValidation.DataAccess.Entities;
 
-namespace PocMvcAppWithFluentValidation.Commands.Todo;
+namespace PocMvcAppWithFluentValidation.Requests.Todo;
 
-public class GetTodosCommandResponse
+public class GetTodosQueryResponse
 {
 
     public ImmutableList<TodoDao> Todos { get; set; }

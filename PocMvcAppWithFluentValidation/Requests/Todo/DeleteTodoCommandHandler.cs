@@ -1,7 +1,7 @@
 using MediatR;
 using PocMvcAppWithFluentValidation.DataAccess;
 
-namespace PocMvcAppWithFluentValidation.Commands.Todo;
+namespace PocMvcAppWithFluentValidation.Requests.Todo;
 
 public class DeleteTodoCommandHandler : IRequestHandler<DeleteTodoCommand>
 {
